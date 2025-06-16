@@ -37,6 +37,9 @@
                 @if (invoiceForm.get('invoice.number')?.errors?.['required']) {
                     <mat-error>Invoice Number is required</mat-error>
                 }
+                @else if (invoiceForm.get('invoice.number')?.errors?.['pattern']) {
+                    <mat-error>Invoice Number must contain only letters and numbers</mat-error>
+                }
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Invoice Amount</mat-label>
