@@ -31,9 +31,9 @@ export class InvoiceForm {
 
   public invoiceForm = this._fb.group({
     personal: this._fb.group({
-      fullName: ['', [Validators.required]],
+      fullName: ['', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]],
       emailAddress: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.pattern(/^\d{10}$/)]]
+      phoneNumber: ['', [Validators.pattern(/^[\+]?[0-9]{0,3}\W?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im)]]
     }),
     invoice: this._fb.group({
       number: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],

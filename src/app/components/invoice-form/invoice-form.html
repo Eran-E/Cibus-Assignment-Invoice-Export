@@ -8,6 +8,9 @@
                 @if (invoiceForm.get('personal.fullName')?.errors?.['required']) {
                     <mat-error>Full Name is required</mat-error>
                 }
+                @else if (invoiceForm.get('personal.fullName')?.errors?.['pattern']) {
+                    <mat-error>Full Name must contain only letters</mat-error>
+                }
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Email Address</mat-label>
@@ -22,8 +25,8 @@
             <mat-form-field>
                 <mat-label>Phone Number</mat-label>
                 <input matInput formControlName="phoneNumber" type="text" />
-                @if (invoiceForm.get('personal.phoneNumber')?.errors?.['required']) {
-                    <mat-error>Phone Number is required</mat-error>
+                @if (invoiceForm.get('personal.phoneNumber')?.errors?.['pattern']) {
+                    <mat-error>Phone Number must contain at least 10 digits and only digits</mat-error>
                 }
             </mat-form-field>
         </div>
