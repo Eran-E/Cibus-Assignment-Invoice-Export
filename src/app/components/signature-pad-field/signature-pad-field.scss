@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.signature-pad-canvas {
+    border-bottom: 1px solid;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}

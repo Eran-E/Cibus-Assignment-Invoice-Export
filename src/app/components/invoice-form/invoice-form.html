@@ -1,5 +1,5 @@
 <h2>Invoice Export</h2>
-<form [formGroup]="invoiceForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="invoiceForm">
     <div class="ie-form-group-list">
         <div class="ie-form-group" formGroupName="personal">
             <mat-form-field>
@@ -52,6 +52,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
+        <app-signature-pad-field (output)="onSignaturePadOutput($event)"></app-signature-pad-field>
     </div>
-    <button mat-raised-button color="primary" type="submit" [disabled]="invoiceForm.invalid">Submit</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="invoiceForm.invalid" (click)="onSubmit()">Submit</button>
 </form>

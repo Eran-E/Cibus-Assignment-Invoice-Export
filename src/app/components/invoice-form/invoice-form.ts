@@ -7,6 +7,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 
+import { SignaturePadField } from '../signature-pad-field/signature-pad-field';
+
 @Component({
   selector: 'app-invoice-form',
   imports: [
@@ -17,6 +19,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
+    SignaturePadField
   ],
   templateUrl: './invoice-form.html',
   styleUrl: './invoice-form.scss',
@@ -36,10 +39,16 @@ export class InvoiceForm {
       number: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
       amount: [1, [Validators.required, Validators.min(1)]],
       date: [new Date(), [Validators.required]],
-    })
+    }),
+    signature: ['', [Validators.required]]
   });
+
+  public onSignaturePadOutput(signatureImg: string): void {
+    this.invoiceForm.get('signature')?.setValue(signatureImg);
+  }
 
   public onSubmit(): void {
     console.log(this.invoiceForm.value);
   }
+
 }
