@@ -3,6 +3,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-invoice-form',
@@ -11,6 +14,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule,
   ],
   templateUrl: './invoice-form.html',
   styleUrl: './invoice-form.scss',
