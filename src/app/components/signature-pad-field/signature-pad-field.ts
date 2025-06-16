@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, output, signal, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 import SignaturePad from 'signature_pad';
@@ -10,7 +10,8 @@ import SignaturePad from 'signature_pad';
   ],
   templateUrl: './signature-pad-field.html',
   styleUrl: './signature-pad-field.scss',
-  standalone: true
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignaturePadField implements AfterViewInit {
 
