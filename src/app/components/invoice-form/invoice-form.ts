@@ -35,7 +35,7 @@ export class InvoiceForm {
     invoice: this._fb.group({
       number: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
       amount: [1, [Validators.required, Validators.min(1)]],
-      date: [new Date(), [Validators.required]/*, [this.dateValidator]*/],
+      date: [new Date(), [Validators.required]],
     })
   });
 
