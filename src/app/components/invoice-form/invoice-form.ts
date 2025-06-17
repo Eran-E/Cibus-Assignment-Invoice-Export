@@ -9,6 +9,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { SignaturePadField } from '../signature-pad-field/signature-pad-field';
 
+import { Pdf } from '../../services/pdf/pdf';
+
 @Component({
   selector: 'app-invoice-form',
   imports: [
@@ -29,6 +31,7 @@ import { SignaturePadField } from '../signature-pad-field/signature-pad-field';
 export class InvoiceForm {
 
   private _fb = inject(FormBuilder);
+  private _pdf = inject(Pdf);
 
   public invoiceForm = this._fb.group({
     personal: this._fb.group({
@@ -44,9 +47,19 @@ export class InvoiceForm {
     signature: ['', [Validators.required]]
   });
 
-
   public onSubmit(): void {
     console.log(this.invoiceForm.value);
+    this._pdf.generateInvoicePdf(this.invoiceForm.value);
   }
+
+  // ngOnInit(): void {
+  //   this._pdf.generateInvoicePdf({
+  //     fullName: 'John Doe',
+  //     emailAddress: 'john.doe@example.com',
+  //     phoneNumber: '+1234567890',
+  //     invoiceNumber: '1234567890',
+  //     amount: 100,
+  //   });
+  // }
 
 }
