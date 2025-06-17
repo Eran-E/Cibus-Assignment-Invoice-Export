@@ -1,5 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, input, signal, viewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import SignaturePad from 'signature_pad';
 
@@ -7,6 +9,7 @@ import SignaturePad from 'signature_pad';
   selector: 'app-signature-pad-field',
   imports: [
     MatButtonModule,
+    MatFormFieldModule,
   ],
   templateUrl: './signature-pad-field.html',
   styleUrl: './signature-pad-field.scss',
@@ -15,10 +18,11 @@ import SignaturePad from 'signature_pad';
 })
 export class SignaturePadField implements AfterViewInit {
 
-  public output = output<string>();
+  public form = input<FormGroup>();
   public canvas = viewChild<ElementRef>('canvas');
   public signatureImg!: string;
   public signaturePad = signal<SignaturePad | null>(null);
+  public isSignatureError = signal<boolean>(false);
 
   ngAfterViewInit(): void {
     this._createSignaturePad();
@@ -38,12 +42,12 @@ export class SignaturePadField implements AfterViewInit {
   private _savePad(): void {
     const base64Data = this.signaturePad()?.toDataURL();
     this.signatureImg = base64Data || '';
-    this.output.emit(this.signatureImg);
+    this.form()?.get('signature')?.setValue(this.signatureImg);
   }
 
   public clearPad(): void {
     this.signaturePad()?.clear();
-    this.output.emit('');
+    this.form()?.get('signature')?.setValue('');
   }
 
   public onMouseClick(event: Event): void {

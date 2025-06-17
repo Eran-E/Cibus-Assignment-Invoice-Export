@@ -1,7 +1,12 @@
-<div class="signature-pad-label">Signature</div>
+<div class="signature-pad-label">Signature*</div>
 <canvas #canvas class="signature-pad-canvas"
     (click)="onMouseClick($event)"
 ></canvas>
+<!-- <div class="signature-pad-field-error">
+    @if (isSignatureError()) {
+        <mat-error>Signature is required</mat-error>
+    }
+</div> -->
 <div class="signature-pad-field-actions">
     <button mat-raised-button color="primary" (click)="clearPad()" [disabled]="signaturePad()?.isEmpty()">Clear</button>
 </div>

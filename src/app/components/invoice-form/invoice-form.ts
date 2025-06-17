@@ -44,9 +44,6 @@ export class InvoiceForm {
     signature: ['', [Validators.required]]
   });
 
-  public onSignaturePadOutput(signatureImg: string): void {
-    this.invoiceForm.get('signature')?.setValue(signatureImg);
-  }
 
   public onSubmit(): void {
     console.log(this.invoiceForm.value);

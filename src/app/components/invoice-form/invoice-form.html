@@ -61,7 +61,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </div>
-        <app-signature-pad-field (output)="onSignaturePadOutput($event)"></app-signature-pad-field>
+        <app-signature-pad-field [form]="invoiceForm"></app-signature-pad-field>
     </div>
     <button mat-raised-button color="primary" type="submit" [disabled]="invoiceForm.invalid" (click)="onSubmit()">Submit</button>
 </form>
