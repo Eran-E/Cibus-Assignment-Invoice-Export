@@ -10,6 +10,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { SignaturePadField } from '../signature-pad-field/signature-pad-field';
 
 import { Pdf } from '../../services/pdf/pdf';
+import { Api } from '../../services/api/api';
 
 @Component({
   selector: 'app-invoice-form',
@@ -32,6 +33,7 @@ export class InvoiceForm {
 
   private _fb = inject(FormBuilder);
   private _pdf = inject(Pdf);
+  private _api = inject(Api);
 
   public invoiceForm = this._fb.group({
     personal: this._fb.group({
@@ -48,18 +50,12 @@ export class InvoiceForm {
   });
 
   public onSubmit(): void {
-    console.log(this.invoiceForm.value);
-    this._pdf.generateInvoicePdf(this.invoiceForm.value);
-  }
 
-  // ngOnInit(): void {
-  //   this._pdf.generateInvoicePdf({
-  //     fullName: 'John Doe',
-  //     emailAddress: 'john.doe@example.com',
-  //     phoneNumber: '+1234567890',
-  //     invoiceNumber: '1234567890',
-  //     amount: 100,
-  //   });
-  // }
+    const pdfBlob = this._pdf.generateInvoicePdf(this.invoiceForm.value);
+    const formData = new FormData();
+    formData.append('file', pdfBlob, 'invoice.pdf');
+    formData.append('metadata', JSON.stringify(this.invoiceForm.value));
+    this._api.createInvoice(formData);
+  }
 
 }
