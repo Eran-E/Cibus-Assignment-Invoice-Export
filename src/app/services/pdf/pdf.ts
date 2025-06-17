@@ -77,13 +77,12 @@ export class Pdf {
 
   }
 
-  public generateInvoicePdf(pdfData: any): void {
+  public generateInvoicePdf(pdfData: any): Blob {
 
     let {x, y} = {x: this._spacing2, y: this._spacing2};
 
     // Main title
     ({x, y} = this._generateText({text: 'Invoice', x, y, isBold: true, fontSize: this._fontSize2}));
-
 
     for (const group of Object.keys(pdfData)) {
 
@@ -100,7 +99,9 @@ export class Pdf {
       }
     }
 
-    this._doc.save('invoice.pdf');
+    const pdfBlob = this._doc.output('blob');
+
+    return pdfBlob;
 
   }
 
