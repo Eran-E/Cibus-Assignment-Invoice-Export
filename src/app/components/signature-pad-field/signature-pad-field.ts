@@ -22,7 +22,6 @@ export class SignaturePadField implements AfterViewInit {
   public canvas = viewChild<ElementRef>('canvas');
   public signatureImg!: string;
   public signaturePad = signal<SignaturePad | null>(null);
-  public isSignatureError = signal<boolean>(false);
 
   ngAfterViewInit(): void {
     this._createSignaturePad();
