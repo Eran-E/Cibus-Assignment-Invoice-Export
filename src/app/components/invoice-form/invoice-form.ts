@@ -71,13 +71,18 @@ export class InvoiceForm {
 
     this.apiResponse.set(response);
 
-    if (response.status === 200) {
-      this.invoiceForm.reset();
-    }
   }
 
-  public onExportNewInvoice(): void {
+  public onNewInvoiceCreation(): void {
+    this.resetForm();
+  }
+
+  public resetForm(): void {
     this.invoiceForm.reset();
+    const invoice = this.invoiceForm.get('invoice');
+    invoice?.get('amount')?.setValue(1);
+    invoice?.get('date')?.setValue(new Date());
+
     this.apiResponse.set(null);
   }
 
