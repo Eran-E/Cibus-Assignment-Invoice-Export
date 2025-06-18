@@ -7,7 +7,7 @@ import { jsPDF } from "jspdf";
 })
 export class Pdf {
 
-  private readonly _doc: jsPDF = new jsPDF();
+  private _doc?: jsPDF;
   private readonly _fontSize1 = 16;
   private readonly _fontSize2 = 32;
   private readonly _spacing1 = 10;
@@ -35,9 +35,9 @@ export class Pdf {
 
   private _generateText({text, x, y, isBold = false, fontSize = this._fontSize1}: {text: string, x: number, y: number, isBold?: boolean, fontSize?: number}): {x: number, y: number} {
 
-    this._doc.setFontSize(fontSize);
-    this._doc.setFont('helvetica', isBold ? 'bold' : 'normal');
-    this._doc.text(text, x, y);
+    this._doc?.setFontSize(fontSize);
+    this._doc?.setFont('helvetica', isBold ? 'bold' : 'normal');
+    this._doc?.text(text, x, y);
 
     return {
       x,
@@ -78,6 +78,8 @@ export class Pdf {
   }
 
   public generateInvoicePdf(pdfData: any): Blob {
+
+    this._doc = new jsPDF();
 
     let {x, y} = {x: this._spacing2, y: this._spacing2};
 
