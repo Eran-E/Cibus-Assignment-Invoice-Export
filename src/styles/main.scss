@@ -1,3 +1,15 @@
+.ie-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    @media (max-width: 768px) {
+        max-width: 100%;
+    }
+}
 
 .ie-response-message- {
 
@@ -20,7 +32,7 @@
     &light {
         color: var(--color-light);
     }
-    
+
     &dark {
         color: var(--color-dark);
     }

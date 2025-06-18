@@ -6,6 +6,10 @@
     gap: 1rem;
 }
 
+.ie-container {
+    flex-direction: column;
+}
+
 .ie-form-group {
 
     display: flex;

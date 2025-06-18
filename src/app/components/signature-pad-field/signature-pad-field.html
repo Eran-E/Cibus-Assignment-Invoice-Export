@@ -3,5 +3,5 @@
     (click)="onMouseClick($event)"
 ></canvas>
 <div class="signature-pad-field-actions">
-    <button mat-raised-button color="primary" (click)="clearPad()" [disabled]="signaturePad()?.isEmpty()">Clear</button>
+    <button matMiniFab color="primary" (click)="clearPad()" [disabled]="signaturePad()?.isEmpty()">Clear</button>
 </div>
