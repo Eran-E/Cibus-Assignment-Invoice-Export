@@ -1,67 +1,87 @@
 <h2>Invoice Export</h2>
-<form [formGroup]="invoiceForm">
-    <div class="ie-form-group-list">
-        <div class="ie-form-group" formGroupName="personal">
-            <mat-form-field>
-                <mat-label>Full Name</mat-label>
-                <input matInput formControlName="fullName" type="text" />
-                @if (invoiceForm.get('personal.fullName')?.errors?.['required']) {
-                    <mat-error>Full Name is required</mat-error>
-                }
-                @else if (invoiceForm.get('personal.fullName')?.errors?.['pattern']) {
-                    <mat-error>Full Name must contain only letters</mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Email Address</mat-label>
-                <input matInput formControlName="emailAddress" type="email" />
-                @if (invoiceForm.get('personal.emailAddress')?.errors?.['required']) {
-                    <mat-error>Email Address is required</mat-error>
-                }
-                @else if (invoiceForm.get('personal.emailAddress')?.errors?.['email']) {
-                    <mat-error>Email Address is invalid</mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Phone Number</mat-label>
-                <input matInput formControlName="phoneNumber" type="text" />
-                @if (invoiceForm.get('personal.phoneNumber')?.errors?.['pattern']) {
-                    <mat-error>Phone Number must contain at least 10 digits and only digits</mat-error>
-                }
-            </mat-form-field>
+@if (!apiResponse()) {
+    <form [formGroup]="invoiceForm">
+        <div class="ie-form-group-list">
+            <div class="ie-form-group" formGroupName="personal">
+                <mat-form-field>
+                    <mat-label>Full Name</mat-label>
+                    <input matInput formControlName="fullName" type="text" />
+                    @if (invoiceForm.get('personal.fullName')?.errors?.['required']) {
+                        <mat-error>Full Name is required</mat-error>
+                    }
+                    @else if (invoiceForm.get('personal.fullName')?.errors?.['pattern']) {
+                        <mat-error>Full Name must contain only letters</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email Address</mat-label>
+                    <input matInput formControlName="emailAddress" type="email" />
+                    @if (invoiceForm.get('personal.emailAddress')?.errors?.['required']) {
+                        <mat-error>Email Address is required</mat-error>
+                    }
+                    @else if (invoiceForm.get('personal.emailAddress')?.errors?.['email']) {
+                        <mat-error>Email Address is invalid</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput formControlName="phoneNumber" type="text" />
+                    @if (invoiceForm.get('personal.phoneNumber')?.errors?.['pattern']) {
+                        <mat-error>Phone Number must contain at least 10 digits and only digits</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            <div class="ie-form-group" formGroupName="invoice">
+                <mat-form-field>
+                    <mat-label>Invoice Number</mat-label>
+                    <input matInput formControlName="number" type="text" />
+                    @if (invoiceForm.get('invoice.number')?.errors?.['required']) {
+                        <mat-error>Invoice Number is required</mat-error>
+                    }
+                    @else if (invoiceForm.get('invoice.number')?.errors?.['pattern']) {
+                        <mat-error>Invoice Number must contain only letters and numbers</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Invoice Amount</mat-label>
+                    <input matInput formControlName="amount" type="number" />
+                    @if (invoiceForm.get('invoice.amount')?.errors?.['required']) {
+                        <mat-error>Invoice Amount is required</mat-error>
+                    }
+                    @else if (invoiceForm.get('invoice.amount')?.errors?.['min']) {
+                        <mat-error>Invoice Amount must be greater than 0</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Invoice Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date" />
+                    @if (invoiceForm.get('invoice.date')?.errors?.['required']) {
+                        <mat-error>Invoice Date is required</mat-error>
+                    }
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <app-signature-pad-field [form]="invoiceForm"></app-signature-pad-field>
         </div>
-        <div class="ie-form-group" formGroupName="invoice">
-            <mat-form-field>
-                <mat-label>Invoice Number</mat-label>
-                <input matInput formControlName="number" type="text" />
-                @if (invoiceForm.get('invoice.number')?.errors?.['required']) {
-                    <mat-error>Invoice Number is required</mat-error>
-                }
-                @else if (invoiceForm.get('invoice.number')?.errors?.['pattern']) {
-                    <mat-error>Invoice Number must contain only letters and numbers</mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Invoice Amount</mat-label>
-                <input matInput formControlName="amount" type="number" />
-                @if (invoiceForm.get('invoice.amount')?.errors?.['required']) {
-                    <mat-error>Invoice Amount is required</mat-error>
-                }
-                @else if (invoiceForm.get('invoice.amount')?.errors?.['min']) {
-                    <mat-error>Invoice Amount must be greater than 0</mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Invoice Date</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date" />
-                @if (invoiceForm.get('invoice.date')?.errors?.['required']) {
-                    <mat-error>Invoice Date is required</mat-error>
-                }
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
-        <app-signature-pad-field [form]="invoiceForm"></app-signature-pad-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="invoiceForm.invalid" (click)="onSubmit()">Submit</button>
+    </form>
+}
+
+@if (apiResponse()?.body?.message) {
+    <div class="ie-response-message-{{ apiResponse()?.status === 200 ? 'success' : 'error' }}">
+        {{ apiResponse()?.body?.message }}
     </div>
-    <button mat-raised-button color="primary" type="submit" [disabled]="invoiceForm.invalid" (click)="onSubmit()">Submit</button>
-</form>
+}
+
+@if (apiResponse()?.body?.metadata) {
+    <div class="ie-response-metadata">
+        <pre>{{ apiResponse()?.body?.metadata | json }}</pre>
+    </div>
+}
+
+@if (apiResponse()?.body?.fileUrl) {
+    <div class="ie-response-file-url">
+        <a href="{{ apiResponse()?.body?.fileUrl }}" target="_blank">Open PDF</a>
+    </div>
+}

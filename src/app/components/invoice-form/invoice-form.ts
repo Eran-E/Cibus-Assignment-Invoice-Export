@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { JsonPipe } from '@angular/common';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +14,9 @@ import { SignaturePadField } from '../signature-pad-field/signature-pad-field';
 import { Pdf } from '../../services/pdf/pdf';
 import { Api } from '../../services/api/api';
 
+import { ApiResponse } from '../../types/api';
+import { HttpResponse } from '@angular/common/http';
+
 @Component({
   selector: 'app-invoice-form',
   imports: [
@@ -22,7 +27,8 @@ import { Api } from '../../services/api/api';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    SignaturePadField
+    SignaturePadField,
+    JsonPipe
   ],
   templateUrl: './invoice-form.html',
   styleUrl: './invoice-form.scss',
@@ -34,6 +40,7 @@ export class InvoiceForm {
   private _fb = inject(FormBuilder);
   private _pdf = inject(Pdf);
   private _api = inject(Api);
+  public apiResponse = signal<HttpResponse<ApiResponse> | null>(null);
 
   public invoiceForm = this._fb.group({
     personal: this._fb.group({
@@ -49,13 +56,24 @@ export class InvoiceForm {
     signature: ['', [Validators.required]]
   });
 
-  public onSubmit(): void {
+  public async onSubmit(): Promise<void> {
 
     const pdfBlob = this._pdf.generateInvoicePdf(this.invoiceForm.value);
     const formData = new FormData();
     formData.append('file', pdfBlob, 'invoice.pdf');
     formData.append('metadata', JSON.stringify(this.invoiceForm.value));
-    this._api.createInvoice(formData);
+    const response = await this._api.createInvoice(formData);
+
+    if (response.body?.metadata) {
+      response.body.metadata = JSON.parse(response.body.metadata);
+      response.body.metadata.signature = '...';
+    }
+
+    this.apiResponse.set(response);
+
+    if (response.status === 200) {
+      this.invoiceForm.reset();
+    }
   }
 
 }

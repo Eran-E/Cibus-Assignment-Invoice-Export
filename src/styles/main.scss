@@ -1,0 +1,27 @@
+
+.ie-response-message- {
+
+    &success {
+        color: var(--color-success);
+    }
+
+    &error {
+        color: var(--color-error);
+    }
+
+    &warning {
+        color: var(--color-warning);
+    }
+
+    &info {
+        color: var(--color-info);
+    }
+
+    &light {
+        color: var(--color-light);
+    }
+    
+    &dark {
+        color: var(--color-dark);
+    }
+}

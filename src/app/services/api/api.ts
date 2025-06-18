@@ -1,7 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
+
+import { ApiResponse } from '../../types/api';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +16,17 @@ export class Api {
 
   constructor() { }
 
-  public createInvoice(formData: FormData): void {
-    this._http.post<any>(this._apiUrl, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).subscribe({
-      next: (res) => {
-        console.log('res', res);
-      },
-      error: (err) => {
-        console.error('err', err);
-      }
-    });
+  public async createInvoice(formData: FormData): Promise<HttpResponse<ApiResponse>> {
+
+    return await lastValueFrom(
+      this._http.post<ApiResponse>(this._apiUrl, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        observe: 'response'
+      })
+    );
+ 
   }
   
 }
