@@ -85,3 +85,7 @@
         <a href="{{ apiResponse()?.body?.fileUrl }}" target="_blank">Open PDF</a>
     </div>
 }
+
+@if (apiResponse()?.status === 200) {
+    <button mat-raised-button color="primary" type="button" (click)="onExportNewInvoice()">Export New Invoice</button>
+}

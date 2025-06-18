@@ -76,4 +76,9 @@ export class InvoiceForm {
     }
   }
 
+  public onExportNewInvoice(): void {
+    this.invoiceForm.reset();
+    this.apiResponse.set(null);
+  }
+
 }

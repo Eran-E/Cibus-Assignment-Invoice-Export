@@ -15,7 +15,7 @@ export const fakeBackendInterceptor: HttpInterceptorFn = (req, next) => {
     const responseBody: ApiResponse = {
       metadata: metadataJson,
       fileUrl: URL.createObjectURL(file),
-      message: 'PDF and metadata received'
+      message: 'Metadata and PDF received:'
     };
 
     return of(new HttpResponse({
